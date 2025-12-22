@@ -1,6 +1,8 @@
 # Templates
 
 Use these as starting points. Replace placeholders and keep `///|` between top-level items.
+Replace `<pkg>` with the package name (for example, `yaml` → `yaml_spec.mbt`).
+If you ran `moon new`, `moon.mod.json` and `moon.pkg.json` are already created.
 
 ## moon.mod.json
 ```json
@@ -17,7 +19,7 @@ Use these as starting points. Replace placeholders and keep `///|` between top-l
 {}
 ```
 
-## spec.mbt (skeleton)
+## <pkg>_spec.mbt (skeleton)
 ```mbt
 ///|
 /// Formal error type for parsing.
@@ -45,27 +47,40 @@ pub fn parse_yaml(input : String) -> Yaml raise ParseError {
 }
 ```
 
-## spec_easy_test.mbt (type-check only)
+## <pkg>_easy_test.mbt 
+
 ```mbt
 ///|
-#skip
 test "spec parses simple yaml" {
   let result : Result[Yaml, ParseError] = try? parse_yaml("a: 1")
   ignore(result)
 }
+... // more tests
 ```
 
-## spec_difficult_test.mbt (type-check only)
+## <pkg>_mid_test.mbt 
+
 ```mbt
 ///|
-#skip
+test "spec handles lists in yaml" {
+  let result : Result[Yaml, ParseError] = try? parse_yaml("items:\n  - one\n  - two\n  - three")
+  ignore(result)
+}
+... // more tests
+```
+
+## <pkg>_difficult_test.mbt 
+```mbt
+///|
 test "spec handles nested yaml" {
   let result : Result[Yaml, ParseError] = try? parse_yaml("a:\n  b: [1, 2]")
   ignore(result)
 }
+... // more tests
 ```
 
-## Optional: spec-driven executable tests (after implementation)
+## <pkg>_feature_test.mbt (Additional tests added by Agents)
+
 ```mbt
 ///|
 test "parse_yaml returns expected structure" {
